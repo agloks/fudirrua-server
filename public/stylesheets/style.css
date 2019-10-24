@@ -1,0 +1,118 @@
+*{
+  margin: 0px;
+  padding: 0px;
+}
+
+html {
+  font-size: 62.5%;
+  color: white;
+}
+
+/* Topo Nav */
+.navBar {
+  display: flex;
+  justify-content: space-evenly;
+  height: 4rem;
+  align-items: center;
+  background: rgba(50,50,50,0.3);
+  position: fixed;
+  top: 0px;
+  width: 100vw;
+}
+
+.formSearch > a {
+  color:white;
+}
+
+.formSearch > button {
+  width: 4rem;
+}
+
+.logo {
+  width: 4rem;
+  height: 2rem;
+}
+
+.logo > img {
+  width: 100%;
+  height: 100%;
+}
+
+/* .lupa {
+  width: 10rem;
+} */
+
+/* MAIN */
+.allVideos {
+  background-color: white;
+  height: 100vh;
+}
+
+.box-videos {
+  background-color: black;
+  height: 20rem;
+}
+
+.box-videos > * {
+  margin: 25px;
+}
+
+.allVideos > * {
+  padding: 5.5rem 8rem 1.5rem 3rem;
+}
+
+.img-boxes {
+  width: 100%;
+  height: 70%;
+}
+
+.img-boxes > img {
+  width: 100%;
+  height: 100%;
+}
+
+.box-info {
+  display: flex;
+}
+
+.img-user {
+  width: 25%;
+  height: 35%;
+}
+
+.img-user > img {
+  height: 100%;
+  width: 50%;
+}
+
+/* FOOTER */
+footer {
+  background-color: black;
+  height: 3rem;
+  display: flex;
+  justify-content: space-evenly;
+  position: fixed;
+  bottom: 0px;
+  background:rgba(50,50,50,0.3);
+}
+
+.icon-footer {
+  width: 25%;
+  margin: 0px 10px;
+}
+
+.figure-icon-footer {
+  width: 100%;
+  height: 3em;
+}
+
+.figure-icon-footer > * {
+  width: 100%;
+  height: 100%;
+}
+
+@media (min-width: 800px) {
+  html {
+    font-size: 100%;
+  }
+}
