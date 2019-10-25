@@ -1,7 +1,7 @@
 const router = require("../index.js");
 const User = require("../../models/usersModel")
 
-router.post('/api/signuser', async (req, res, next) => {
+router.post('/api/user/sign', async (req, res, next) => {
   
   const {name, email, password} = req.body
 

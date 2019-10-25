@@ -78,6 +78,7 @@ app.use(passport.session());
 app.locals.title = 'FudiRua';
 
 const deleteUserRoute = require("./routes/user/delete")
+const updateUserRoute = require("./routes/user/update")
 const signRoute = require("./routes/user/sign")
 const loginRoute = require("./routes/user/login")
 const index = require('./routes/index');

@@ -2,7 +2,7 @@ const router = require("../index")
 const passport = require("passport");
 
 //LOGIN ROUTE
-router.post('/api/login', (req, res, next) => {
+router.post('/api/user/login', (req, res, next) => {
   passport.authenticate('local', (err, theUser, failureDetails) => {
     if (err) {
       res.status(500).json({
@@ -36,7 +36,7 @@ router.post('/api/login', (req, res, next) => {
 
 
 //LOGOUT ROUTE
-router.get("/api/logout", (req, res, next) => {
+router.get("/api/user/logout", (req, res, next) => {
   if(req.isAuthenticated()) {
     req.logout()
     res.status(200).json({logout: "deslogado com sucesso"});
@@ -47,7 +47,7 @@ router.get("/api/logout", (req, res, next) => {
 
 
 //CHECKED LOGGED
-router.get('/api/logged', (req, res, next) => {
+router.get('/api/user/logged', (req, res, next) => {
   // req.isAuthenticated() is defined by passport
   if (req.isAuthenticated()) {
     res.status(200).json(req.user);
