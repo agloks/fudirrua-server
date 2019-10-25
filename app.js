@@ -9,7 +9,6 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
-
 mongoose
   .connect('mongodb://localhost/fudirua', {useNewUrlParser: true})
   .then(x => {
@@ -31,14 +30,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Express View engine setup
-
 app.use(require('node-sass-middleware')({
   src:  path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
   sourceMap: true
 }));
       
-
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
@@ -62,12 +59,12 @@ passport.deserializeUser((id, cb) => {
 });
 
 app.use(session({
-  secret: "fakebook",
+  secret: "lchost",
   resave: true,
   saveUninitialized: true,
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
-    ttl: 24 * 60 * 60
+    ttl: 1 * 60 * 60//1 hora
   })
 }));
 
@@ -80,9 +77,8 @@ app.use(passport.session());
 // default value for title local
 app.locals.title = 'FudiRua';
 
-
-const signRoute = require("./routes/sign")
-const loginRoute = require("./routes/login")
+const signRoute = require("./routes/user/sign")
+const loginRoute = require("./routes/user/login")
 const index = require('./routes/index');
 app.use('/', index);
 
