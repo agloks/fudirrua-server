@@ -1,7 +1,7 @@
 const router = require("../index.js");
 const User = require("../../models/usersModel")
 
-router.post('/api/sign-user', async (req, res, next) => {
+router.post('/api/signuser', async (req, res, next) => {
   
   const {name, email, password} = req.body
 
@@ -24,7 +24,7 @@ router.post('/api/sign-user', async (req, res, next) => {
     return null;
   }
 
-  try{
+  try {
     const userCreated = await User.create(req.body)
     res.status(200).json({user:userCreated})
     req.login(userCreated, err => { 
