@@ -7,7 +7,7 @@ router.put("/api/user/update", async(req, res, next) => {
 
   if(name !== undefined) {
     if(name.length < 1) {
-      const menssageSend = "Deu Ruim, tamanho de nome é menor que 1"
+      const menssageSend = "Deu Ruim, tamanho do nome é menor que 1"
       res.status(400).json({mensage: menssageSend})
       return null;
     } else { UpdateObj.name = name }
@@ -23,7 +23,7 @@ router.put("/api/user/update", async(req, res, next) => {
 
   if(location !== undefined) {
     if( (location.length < 2) | (location.length > 4) ) {
-      const menssageSend = "Deu Ruim, location invalida"
+      const menssageSend = "Deu Ruim, location inválida"
       res.status(400).json({mensage: menssageSend})
       return null;
     } else { UpdateObj.location = location }
@@ -36,7 +36,7 @@ router.put("/api/user/update", async(req, res, next) => {
     const updatedView = await User.findById(updated._id)
     res.status(200).json({user: updatedView})
   } catch {
-    res.send(400).json({error: "error ao fazer update"})
+    res.send(400).json({error: "erro ao fazer update"})
   }
 
 })
