@@ -12,6 +12,7 @@ const usersSchema = new Schema({
   likedComedian: [{type: Schema.Types.ObjectId, ref: "comedians"}],
   likedTags: [{type: String}],
   likedVideos: [{type: Schema.Types.ObjectId, ref: "videos"}],
+  historyVideos: [{type: Schema.Types.ObjectId, ref: "videos"}],
   login: {type : Schema.Types.Mixed},//necessita remover esse
   password: {type : Schema.Types.Mixed},
   themeDisplay: {type: String, default: "default"},
