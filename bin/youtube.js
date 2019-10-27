@@ -6,7 +6,7 @@ const Video = require("../models/videosModel")
 
 const youtube = google.youtube({
   version: "v3",
-  auth: "AIzaSyAyqs8AXUjMdWxJH9XHcnpDpfNzUEuFU8M"
+  auth: process.env.YOU_KEY
 })
 
 //return videos of channel user
@@ -85,8 +85,9 @@ class YoutubeApiVideosPlaylist {
         // console.log(this.objectResult)
 
         await Video.create(this.objectResult)
-        .then((s) => {console.log(s); this.objectResult = {}})
+        .then((s) => {console.log(s); this.objectResult = {}; s.ComediansInVideo.push(items.snippet.channelTitle)})
         .catch((e) => {console.log(e); this.objectResult = {}})
+
       }
     }
     else {
