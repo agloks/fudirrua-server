@@ -8,6 +8,7 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const cors         = require("cors");
 
 mongoose
   .connect(process.env.MONGODB_URL, {useNewUrlParser: true, useUnifiedTopology: true })
@@ -72,6 +73,13 @@ app.use(passport.session());
 
 // default value for title local
 app.locals.title = 'FudiRua';
+
+
+// CORS 
+app.use(cors({
+  credentials: true,
+  origin: ['http://localhost:3000']
+}));
 
 // users routes
 const deleteUserRoute = require("./routes/user/delete")
