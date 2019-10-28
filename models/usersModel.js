@@ -13,7 +13,7 @@ const usersSchema = new Schema({
   likedTags: [{type: String}],
   likedVideos: [{type: Schema.Types.ObjectId, ref: "videos"}],
   historyVideos: [{type: Schema.Types.ObjectId, ref: "videos"}],
-  login: {type : Schema.Types.Mixed},//necessita remover esse
+  login: {type : Schema.Types.Mixed, unique: true},
   password: {type : Schema.Types.Mixed},
   themeDisplay: {type: String, default: "default"},
   authenticadMode: {type: String, default: "local"}
