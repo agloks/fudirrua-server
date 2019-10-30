@@ -18,9 +18,17 @@ router.post("/api/videos/filter", async(req, res, next) => {
   console.log(req.body)
   let objSend = {}
   for (let item in req.body) {
-    if( ((item !== undefined) | item.length !== 0) & (req.body[item] !== "") ) {
-      objSend[item] = req.body[item]
+
+    if(item === "datePublication") {
+      console.log("here item filter date")
+      req.body[item] = ""
     }
+
+    if( ((item !== undefined) | item.length !== 0) & (req.body[item] !== "") ) {
+      if(item === "nameVideo" | item === "location") { objSend[item] = new RegExp(`(${req.body[item].toUpperCase()})`) }
+      else { objSend[item] = new RegExp(`(${req.body[item]})`) }
+    }
+
   }
 
   try {
