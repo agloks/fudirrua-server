@@ -25,7 +25,21 @@ router.post("/api/videos/filter", async(req, res, next) => {
     }
 
     if( ((item !== undefined) | item.length !== 0) & (req.body[item] !== "") ) {
+
       if(item === "nameVideo" | item === "location") { objSend[item] = new RegExp(`(${req.body[item].toUpperCase()})`) }
+      else if(item === "tags") {
+        let strTemp = ""
+        let arrayTags = req.body[item].split(",")
+        for(let k = 0; k < arrayTags.length; k++) {
+          if(k === 0) {
+            strTemp += `(${arrayTags[k]})`
+          } else if(k !== arrayTags.length) {
+            strTemp += `|(${arrayTags[k]})`
+          }
+          console.log(strTemp)
+          objSend[item] = new RegExp(`${strTemp}`)
+        }
+      }
       else { objSend[item] = new RegExp(`(${req.body[item]})`) }
     }
 

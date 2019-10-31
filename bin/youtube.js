@@ -96,7 +96,7 @@ class YoutubeApiVideosPlaylist {
   }
 }
 
-async function genVideoDB(ID = "UCCqoc2as2nMEXoZPlwXei4g", qnt = 10) {
+async function genVideoDB(ID, qnt) {
   await mongoose
   .connect("mongodb://localhost/fudirua", {useNewUrlParser: true, useUnifiedTopology: true })
   .then(x => { console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)})
@@ -117,4 +117,5 @@ async function genVideoDB(ID = "UCCqoc2as2nMEXoZPlwXei4g", qnt = 10) {
   }
 }
 
-genVideoDB("UCCqoc2as2nMEXoZPlwXei4g", 200)
+module.exports = genVideoDB
+// genVideoDB("UCCqoc2as2nMEXoZPlwXei4g", 200)

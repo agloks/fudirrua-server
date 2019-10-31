@@ -89,6 +89,7 @@ const loginRoute = require("./routes/user/login")
 // videos routes
 const videosHistoryRoutes = require("./routes/videos/history")
 const videosFilterRoutes = require("./routes/videos/filter")
+const videosAddRoute = require("./routes/videos/add")
 // index
 const index = require('./routes/index');
 app.use('/', index);

@@ -48,9 +48,9 @@ router.post('/api/user/sign', async (req, res, next) => {
     const userCreated = await User.create(req.body)
     req.login(userCreated, (err) => { 
       if (err) { res.status(500).json({ message: 'Login after signup went bad.' })}; return null})
-    res.status(200).json({user:userCreated})
+      res.status(200).json({user:userCreated})
     } catch {
-    res.status(500).json({error:"error ao criar no servidor"})
+      res.status(500).json({error:"error ao criar no servidor"})
   }
 
 });
