@@ -74,7 +74,6 @@ app.use(passport.session());
 // default value for title local
 app.locals.title = 'FudiRua';
 
-
 // CORS 
 app.use(cors({
   credentials: true,
