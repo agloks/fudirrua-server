@@ -77,7 +77,7 @@ app.locals.title = 'FudiRua';
 // CORS 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:3000']
+  origin: ['http://localhost:3000',"https://fudirrua.netlify.com"]
 }));
 
 // users routes
