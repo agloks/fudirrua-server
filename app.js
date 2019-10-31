@@ -1,41 +1,97 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+require('dotenv').config();
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const bodyParser   = require('body-parser');
+const cookieParser = require('cookie-parser');
+const express      = require('express');
+const favicon      = require('serve-favicon');
+const hbs          = require('hbs');
+const mongoose     = require('mongoose');
+const logger       = require('morgan');
+const path         = require('path');
+const cors         = require("cors");
 
-var app = express();
+mongoose
+  .connect(process.env.MONGODB_URL, {useNewUrlParser: true, useUnifiedTopology: true })
+  .then(x => { console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)})
+  .catch(err => { console.error('Error connecting to mongo', err)});
 
-// view engine setup
+const app_name = require('./package.json').name;
+const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
+
+const app = express();
+
+// Middleware Setup
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+
+// Express View engine setup
+app.use(require('node-sass-middleware')({
+  src:  path.join(__dirname, 'public'),
+  dest: path.join(__dirname, 'public'),
+  sourceMap: true
+}));
+      
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// Passport
+const session = require('express-session');
+const passport = require('passport');
+const MongoStore = require('connect-mongo')(session)
+const User = require("./models/usersModel")
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+passport.deserializeUser((id, cb) => {
+  User.findById(id, (err, user) => {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
 });
+
+app.use(session({
+  secret: "lchost",
+  resave: true,
+  saveUninitialized: true,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 1 * 60 * 60//1 hora
+  })
+}));
+
+const authLocal = require("./auth/authLocal")
+passport.use(authLocal)
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// default value for title local
+app.locals.title = 'FudiRua';
+
+// CORS 
+app.use(cors({
+  credentials: true,
+  origin: ['http://localhost:3000']
+}));
+
+// users routes
+const deleteUserRoute = require("./routes/user/delete")
+const updateUserRoute = require("./routes/user/update")
+const signRoute = require("./routes/user/sign")
+const loginRoute = require("./routes/user/login")
+// videos routes
+const videosHistoryRoutes = require("./routes/videos/history")
+const videosFilterRoutes = require("./routes/videos/filter")
+const videosAddRoute = require("./routes/videos/add")
+// index
+const index = require('./routes/index');
+app.use('/', index);
+
 
 module.exports = app;
