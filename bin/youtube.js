@@ -85,7 +85,7 @@ class YoutubeApiVideosPlaylist {
         // console.log(this.objectResult)
 
         await Video.create(this.objectResult)
-        .then((s) => {console.log(s); this.objectResult = {}; s.ComediansInVideo.push(items.snippet.channelTitle)})
+        .then((s) => {console.log(s); this.objectResult = {}})
         .catch((e) => {console.log(e); this.objectResult = {}})
 
       }

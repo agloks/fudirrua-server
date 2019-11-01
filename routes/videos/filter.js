@@ -17,16 +17,27 @@ router.get("/api/videos/home", async(req, res, next) => {
 router.post("/api/videos/filter", async(req, res, next) => {
   console.log(req.body)
   let objSend = {}
+  let ordernation = "-datePublication"
   for (let item in req.body) {
 
     if(item === "datePublication") {
-      console.log("here item filter date")
+      if(req.body[item] === "Mais antigos primeiro") {
+        ordernation = "datePublication"
+      }
       req.body[item] = ""
     }
 
     if( ((item !== undefined) | item.length !== 0) & (req.body[item] !== "") ) {
 
-      if(item === "nameVideo" | item === "location") { objSend[item] = new RegExp(`(${req.body[item].toUpperCase()})`) }
+      if(item === "nameVideo" | item === "location") {
+         let strTemp = ""
+         let arrayChar = req.body[item].split("")
+         for(let k of arrayChar) {
+           strTemp += `(${k}|${k.toUpperCase()})`
+         } 
+         objSend[item] = new RegExp(`${strTemp}`) 
+         }
+
       else if(item === "tags") {
         let strTemp = ""
         let arrayTags = req.body[item].split(",")
@@ -36,18 +47,17 @@ router.post("/api/videos/filter", async(req, res, next) => {
           } else if(k !== arrayTags.length) {
             strTemp += `|(${arrayTags[k]})`
           }
-          console.log(strTemp)
           objSend[item] = new RegExp(`${strTemp}`)
         }
       }
+
       else { objSend[item] = new RegExp(`(${req.body[item]})`) }
     }
 
   }
 
   try {
-    console.log(objSend)
-    const recentsVideo = await Video.find(objSend).sort('-datePublication').limit(20)
+    const recentsVideo = await Video.find(objSend).sort(ordernation).limit(20)
     res.status(200).json(recentsVideo)
   } catch(err) {
     console.log(err)
